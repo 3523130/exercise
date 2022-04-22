@@ -1,54 +1,26 @@
 <template>
-  <view class="index">
-     <view class="top">
-      <view class="nav" :style="{height:navBarHeight + 'px'}"></view>
-      <view class="head"></view>
-    </view>
-    <div class="content">
-      <view class="cell booking">
-          <view class="place flex">
-            <view class="region">深圳市</view>
-            <view class="nearby">附近场所</view>
-          </view>
-          <div class="time flex">
-            <view class="date">4月21日</view>
-            <view class="time-frame">全天时段</view>
-          </div>
-          <view class="desc">区域/场馆/位置</view>
-          <nut-button class="seek-btn">寻找场地</nut-button>
-      </view>
-      <view class="title">我的行程</view>
-      <view class="cell route"></view>
-    </div>
-  </view>
+  <Home v-if="active == 0"></Home>
+  <My v-if="active == 1"></My>
+  <nut-tabbar v-model:visible="active" :bottom="true" unactive-color="#7d7e80" safe-area-inset-bottom active-color="#1989fa">
+    <nut-tabbar-item tab-title="首页" icon="home"></nut-tabbar-item>
+    <nut-tabbar-item tab-title="我的" icon="my"></nut-tabbar-item>
+  </nut-tabbar>
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from 'vue';
-import Taro from '@tarojs/taro';
+import { reactive, toRefs } from 'vue';
+import Home from '../home/home.vue'
+import My from '../my/my.vue'
 export default {
   name: 'Index',
   components: {
-    
-  },
+    Home,
+    My
+},
   setup(){
     const state = reactive({
-      navBarHeight: 0,
-      menuBotton: 0,
-      menuRight: 0,
-      menuHeight: 0
+      active: 1
     });
-    onMounted(() => {
-      let systemInfo = {}
-      Taro.getSystemInfo({
-        success: res => systemInfo = res
-      })
-      let menuButtonInfo = Taro.getMenuButtonBoundingClientRect()
-      state.navBarHeight = (menuButtonInfo.top - systemInfo.statusBarHeight) * 2 + menuButtonInfo.height + systemInfo.statusBarHeight;
-      state.menuBotton = menuButtonInfo.top - systemInfo.statusBarHeight;
-      state.menuRight = systemInfo.screenWidth - menuButtonInfo.right;
-      state.menuHeight = menuButtonInfo.height;
-    })
     return {
       ...toRefs(state),
     }
@@ -57,123 +29,4 @@ export default {
 </script>
 
 <style lang="scss">
-.index {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  position: relative;
-  height: 100vh;
-  .top{
-    background: #2098f6;
-    position: relative;
-    height: 303px;
-  }
-  .top::after{
-    content: '';
-    position: absolute;
-    top: -192px;
-    left: -131px;
-    width: 292px;
-    height: 283px;
-    border-radius: 50%;
-    background-color: #ececec;
-    opacity: 0.25;
-  }
-  .head {
-    // width: 100%;
-    height: 218px;
-    position: relative;
-    overflow: hidden;
-    &::after{
-      content: '';
-      position: absolute;
-      bottom: -111px;
-      right: -99px;
-      width: 292px;
-      height: 283px;
-      border-radius: 50%;
-      background-color: #ececec;
-      opacity: 0.25;
-    }
-    &::before{
-      content: '';
-      position: absolute;
-      bottom: -222px;
-      right: 39px;
-      width: 292px;
-      height: 283px;
-      border-radius: 50%;
-      background-color: #ececec;
-      opacity: 0.25;
-    }
-  }
-  .content{
-    // position: relative;
-    .cell{
-      background-color: #fff;
-      box-shadow: 0px 2px 6px 0px #e0e0e0;
-      border-radius: 15px;
-      margin: 0 auto;
-    }
-    .booking{
-      width: 85%;
-      height: 160px;
-      padding: 25px 15px;
-      z-index: 10;
-      position: absolute;
-      overflow: hidden;
-      top: 150px;
-      left: 0;
-      right: 0;
-      .place{
-        margin-bottom: 20px;
-        .region{
-          font-size: 18px;
-          color: #000;
-        }
-        .nearby{
-          font-size: 14px;
-          color: #2196f3;
-        }
-      }
-      .time{
-        margin-bottom: 20px;
-        .date{
-          font-size: 20px;
-          color: #000;
-        }
-        .time-frame{
-          font-size: 16px;
-          color: #000;
-        }
-      }
-      .desc{
-        color: #999;
-        font-size: 14px;
-        text-align: left;
-      }
-      .seek-btn{
-        width: 100%;
-        background-color: #2098f6;
-        color: #fff;
-        margin-top: 20px;
-      }
-    }
-    .route{
-      width: 95%;
-      height: 150px;
-    }
-    .title{
-      font-size: 16px;
-      text-align: left;
-      margin: 90px 0 0 10px;
-    }
-  }
-}
-.flex{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 </style>
