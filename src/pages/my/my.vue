@@ -36,7 +36,7 @@ import card from '../../assets/images/card.svg'
 import money from '../../assets/images/money.svg'
 import badminton2 from '../../assets/images/badminton2.svg'
 export default {
-  name: 'Index',
+  name: 'My',
   components: {
     
   },

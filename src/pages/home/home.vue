@@ -8,7 +8,7 @@
       <view class="cell booking">
           <view class="place flex">
             <view class="region">深圳市</view>
-            <view class="nearby">附近场所</view>
+            <view class="nearby" @click="skip">附近场所</view>
           </view>
           <div class="time flex">
             <view class="date">4月21日</view>
@@ -32,7 +32,7 @@ import { reactive, toRefs, onMounted } from 'vue';
 import Taro from '@tarojs/taro';
 import badminton from '../../assets/images/badminton.svg'
 export default {
-  name: 'Index',
+  name: 'Home',
   components: {
     
   },
@@ -43,6 +43,11 @@ export default {
       menuRight: 0,
       menuHeight: 0,
     });
+    const skip = ()=> {
+      Taro.navigateTo({
+        url: '/pages/searchSpace/searchSpace'
+      })
+    }
     onMounted(() => {
       let systemInfo = {}
       Taro.getSystemInfo({
@@ -57,6 +62,7 @@ export default {
     return {
       ...toRefs(state),
       badminton,
+      skip
     }
   }
 }

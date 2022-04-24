@@ -19,7 +19,7 @@ export default {
 },
   setup(){
     const state = reactive({
-      active: 1
+      active: 0
     });
     return {
       ...toRefs(state),
